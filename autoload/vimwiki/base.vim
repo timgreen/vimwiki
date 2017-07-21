@@ -554,7 +554,9 @@ function! vimwiki#base#get_wikilinks(wiki_nr, also_absolute_links)
   endif
   let result = []
   for wikifile in files
-    let wikifile = fnamemodify(wikifile, ':r') " strip extension
+    if VimwikiGet('syntax') != 'markdown'
+      let wikifile = fnamemodify(wikifile, ':r') " strip extension
+    endif
     let wikifile = vimwiki#path#relpath(cwd, wikifile)
     call add(result, wikifile)
   endfor
@@ -565,7 +567,9 @@ function! vimwiki#base#get_wikilinks(wiki_nr, also_absolute_links)
       elseif a:wiki_nr < 0
         let cwd = VimwikiGet('path').VimwikiGet('diary_rel_path')
       endif
-      let wikifile = fnamemodify(wikifile, ':r') " strip extension
+      if VimwikiGet('syntax') != 'markdown'
+        let wikifile = fnamemodify(wikifile, ':r') " strip extension
+      endif
       let wikifile = '/'.vimwiki#path#relpath(cwd, wikifile)
       call add(result, wikifile)
     endfor
